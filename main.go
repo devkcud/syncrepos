@@ -20,8 +20,15 @@ func main() {
 	flagForce := flag.BoolP("force", "f", false, "Append the --force flag in gh repo sync")
 	flagRepoList := flag.StringP("repolist", "r", filepath.Join(os.Getenv("HOME"), ".config", ".syncrepos"), "Provide a repo list to sync")
 	flagCreateRepoList := flag.BoolP("createrepolist", "c", false, "Create the repo list if it's not present")
+	flagQuiet := flag.BoolP("quiet", "q", false, "Disable ALL output (even errors)")
 
 	flag.Parse()
+
+	if *flagQuiet {
+		os.Stdin = nil
+		os.Stdout = nil
+		os.Stderr = nil
+	}
 
 	ReposList = *flagRepoList
 
@@ -46,7 +53,7 @@ func createRepoList() {
 	if _, err := os.Stat(ReposList); os.IsNotExist(err) {
 		file, err := os.Create(ReposList)
 		if err != nil {
-			log.Fatalf("Failed to create repo list file: %v", err)
+			fmt.Printf("Failed to create repo list file: %v", err)
 		}
 		defer file.Close()
 	}
@@ -74,7 +81,7 @@ func syncRepos(force bool) {
 
 	for err := range errCh {
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 	}
 }
@@ -119,7 +126,7 @@ func addRepo(repo string) {
 func runOnEachLine(run func(string)) {
 	readFile, err := os.Open(ReposList)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	defer readFile.Close()
 
@@ -134,7 +141,7 @@ func runOnEachLine(run func(string)) {
 	}
 
 	if err := fileScanner.Err(); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 }
 
@@ -142,7 +149,7 @@ func readReposFromFile() map[string]struct{} {
 	repos := make(map[string]struct{})
 	file, err := os.Open(ReposList)
 	if err != nil {
-		log.Fatalf("Couldn't read file: %v", err)
+		fmt.Printf("Couldn't read file: %v", err)
 	}
 	defer file.Close()
 
@@ -157,7 +164,7 @@ func readReposFromFile() map[string]struct{} {
 	}
 
 	if err := fileScanner.Err(); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 
 	return repos

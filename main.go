@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"regexp"
 	"sync"
 
 	flag "github.com/spf13/pflag"
@@ -113,11 +112,6 @@ func printRepos() {
 }
 
 func addRepo(repo string) {
-	if !regexp.MustCompile(`^[a-zA-Z0-9]([a-zA-Z0-9-_]*[a-zA-Z0-9])?\/[a-zA-Z0-9]([a-zA-Z0-9-_]*[a-zA-Z0-9])?$`).MatchString(repo) {
-		fmt.Printf("Repositories must be: username/repository but found %s\n", repo)
-		return
-	}
-
 	repos := readReposFromFile()
 
 	if _, exists := repos[repo]; exists {

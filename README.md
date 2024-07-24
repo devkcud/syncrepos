@@ -52,7 +52,7 @@ sr -r "/home/pato/.config/.syncrepos"
 You can just place all the args together:
 
 ```bash
-sr -cr "/home/pato/.config/.syncrepos" devkcud/syncrepos -sf
+sr -tqsfcr .sync devkcud/syncrepos
 ```
 
 For more info view:

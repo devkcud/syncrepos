@@ -19,6 +19,7 @@ func main() {
 	flagForce := flag.BoolP("force", "f", false, "Append the --force flag in gh repo sync")
 	flagRepoList := flag.StringP("repolist", "r", filepath.Join(os.Getenv("HOME"), ".config", ".syncrepos"), "Provide a repo list to sync")
 	flagCreateRepoList := flag.BoolP("createrepolist", "c", false, "Create the repo list if it's not present")
+	flagTemp := flag.BoolP("temp", "t", false, "Removes the config file after doing all sync")
 	flagQuiet := flag.BoolP("quiet", "q", false, "Disable ALL output (even errors)")
 
 	flag.Parse()
@@ -45,6 +46,12 @@ func main() {
 
 	if *flagSync {
 		syncRepos(*flagForce)
+	}
+
+	if *flagTemp {
+		if err := os.Remove(ReposList); err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 

@@ -18,7 +18,7 @@ var ReposList string
 func main() {
 	flagSync := flag.BoolP("sync", "s", false, "Get all the repos in config and sync it using gh repo sync")
 	flagForce := flag.BoolP("force", "f", false, "Append the --force flag in gh repo sync")
-	flagRepoList := flag.StringP("repolist", "r", filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "syncrepos"), "Provide a repo list to sync")
+	flagRepoList := flag.StringP("repolist", "r", filepath.Join(os.Getenv("HOME"), ".config", ".syncrepos"), "Provide a repo list to sync")
 	flagCreateRepoList := flag.BoolP("createrepolist", "c", false, "Create the repo list if it's not present")
 
 	flag.Parse()

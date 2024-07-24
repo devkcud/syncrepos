@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -67,9 +66,9 @@ func syncRepos(force bool) {
 	for repo := range repos {
 		wg.Add(1)
 		go func(repo string) {
-			log.Println("STARTED", repo)
+			fmt.Println("STARTED", repo)
 			defer wg.Done()
-			defer log.Println("DONE", repo)
+			defer fmt.Println("DONE", repo)
 			if err := runSyncCommand(repo, force); err != nil {
 				errCh <- err
 			}
@@ -173,11 +172,11 @@ func readReposFromFile() map[string]struct{} {
 func writeRepoToFile(repo string) {
 	writeFile, err := os.OpenFile(ReposList, os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	defer writeFile.Close()
 
 	if _, err := writeFile.WriteString(repo + "\n"); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 }

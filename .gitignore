@@ -1,0 +1,6 @@
+/**/*
+!.gitignore
+!Makefile
+!go.mod
+!go.sum
+!main.go

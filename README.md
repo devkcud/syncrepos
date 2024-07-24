@@ -10,8 +10,6 @@ To build:
 make build
 ```
 
-The default behaviour of `make` is to build and install (copy into `~/.local/bin` as `sr`)
-
 To install:
 
 ```bash
@@ -23,6 +21,8 @@ To do both:
 ```bash
 make
 ```
+
+The default behaviour of `make` is to build and install (copy into `~/.local/bin` as `sr`)
 
 ## usage
 
@@ -36,7 +36,7 @@ sr -s
 # will sync the repos found in the $HOME/.config/.syncrepos
 # To force the sync command, just place the -f flag
 #
-# Like this: sf -sf or sf -s -f
+# Like this: sr -sf or sf -s -f
 #
 # This won't force anything in the syncrepos script, it's just a way to pass in the --force to gh repo sync command
 ```
